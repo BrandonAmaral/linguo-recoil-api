@@ -5,10 +5,17 @@ export class AddDeckController implements Controller {
   constructor(private readonly addDeck: AddDeck) {}
 
   async handle(request: any): Promise<HttpResponse> {
-    this.addDeck.add(request);
-    return {
-      body: 'result',
-      statusCode: 200,
-    };
+    try {
+      this.addDeck.add(request);
+      return {
+        body: 'result',
+        statusCode: 200,
+      };
+    } catch (err) {
+      return {
+        body: err,
+        statusCode: 500,
+      };
+    }
   }
 }
