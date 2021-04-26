@@ -1,5 +1,7 @@
-export class AddDeckController {
-  async handle(request: any): Promise<any> {
+import { Controller, HttpResponse } from '@/presentation/protocols';
+
+export class AddDeckController implements Controller {
+  async handle(request: any): Promise<HttpResponse> {
     return {
       body: 'data',
       statusCode: 200,
