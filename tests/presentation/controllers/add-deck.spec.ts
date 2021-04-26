@@ -1,5 +1,6 @@
 import { AddDeckController } from '@/presentation/controllers';
 import { AddDeckSpy } from '@/tests/presentation/mocks';
+import { noContent, serverError } from '@/presentation/helpers';
 
 import faker from 'faker';
 
@@ -23,11 +24,11 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AddDeck Controller', () => {
-  it('Should return 200 on success', async () => {
+  it('Should return 204 on success', async () => {
     const { sut } = makeSut();
     const request = mockRequest();
     const response = await sut.handle(request);
-    expect(response.statusCode).toBe(200);
+    expect(response).toEqual(noContent());
   });
 
   it('Should call AddDeck with correct values', async () => {
@@ -45,7 +46,6 @@ describe('AddDeck Controller', () => {
     });
     const request = mockRequest();
     const response = await sut.handle(request);
-    expect(response.statusCode).toBe(500);
-    expect(response.body).toStrictEqual(new Error());
+    expect(response).toEqual(serverError(new Error()));
   });
 });

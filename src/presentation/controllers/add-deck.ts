@@ -1,5 +1,6 @@
 import { AddDeck } from '@/domain/usecases';
 import { Controller, HttpResponse } from '@/presentation/protocols';
+import { noContent, serverError } from '@/presentation/helpers';
 
 export class AddDeckController implements Controller {
   constructor(private readonly addDeck: AddDeck) {}
@@ -7,15 +8,9 @@ export class AddDeckController implements Controller {
   async handle(request: any): Promise<HttpResponse> {
     try {
       this.addDeck.add(request);
-      return {
-        body: 'result',
-        statusCode: 200,
-      };
+      return noContent();
     } catch (err) {
-      return {
-        body: err,
-        statusCode: 500,
-      };
+      return serverError(err);
     }
   }
 }
