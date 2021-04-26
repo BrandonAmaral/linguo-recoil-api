@@ -37,4 +37,15 @@ describe('AddDeck Controller', () => {
     await sut.handle(request);
     expect(addSpy).toHaveBeenCalledWith(request);
   });
+
+  it('Should return 500 if AddDeck fails', async () => {
+    const { sut, addDeckSpy } = makeSut();
+    jest.spyOn(addDeckSpy, 'add').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const request = mockRequest();
+    const response = await sut.handle(request);
+    expect(response.statusCode).toBe(500);
+    expect(response.body).toStrictEqual(new Error());
+  });
 });
