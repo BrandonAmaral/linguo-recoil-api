@@ -1,5 +1,9 @@
 module.exports = {
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main/**'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**',
+    '!<rootDir>/src/presentation/errors/**',
+  ],
   coverageDirectory: 'coverage',
   coveragePathIgnorePatterns: ['index.ts'],
   coverageProvider: 'babel',
