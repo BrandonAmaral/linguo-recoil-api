@@ -16,9 +16,8 @@ const makeSut = (): SutTypes => {
 describe('DbAddDeck Usecase', () => {
   it('Should call AddDeckRepository with correct values', async () => {
     const { sut, addDeckRepositorySpy } = makeSut();
-    const addSpy = jest.spyOn(addDeckRepositorySpy, 'add');
     const data = mockAddDeckParams();
     await sut.add(data);
-    expect(addSpy).toHaveBeenCalledWith(data);
+    expect(addDeckRepositorySpy.params).toEqual(data);
   });
 });
