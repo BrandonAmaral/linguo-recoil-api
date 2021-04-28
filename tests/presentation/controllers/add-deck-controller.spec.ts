@@ -3,8 +3,9 @@ import { AddDeckSpy } from '@/tests/presentation/mocks';
 import { noContent, serverError } from '@/presentation/helpers';
 
 import faker from 'faker';
+import MockDate from 'mockdate';
 
-const mockRequest = (): any => ({
+const mockRequest = (): AddDeckController.Params => ({
   name: faker.random.words(),
   isPublic: true,
 });
@@ -24,6 +25,14 @@ const makeSut = (): SutTypes => {
 };
 
 describe('AddDeck Controller', () => {
+  beforeAll(() => {
+    MockDate.set(new Date());
+  });
+
+  afterAll(() => {
+    MockDate.reset();
+  });
+
   it('Should return 204 on success', async () => {
     const { sut } = makeSut();
     const request = mockRequest();
@@ -33,10 +42,13 @@ describe('AddDeck Controller', () => {
 
   it('Should call AddDeck with correct values', async () => {
     const { sut, addDeckSpy } = makeSut();
-    const addSpy = jest.spyOn(addDeckSpy, 'add');
     const request = mockRequest();
     await sut.handle(request);
-    expect(addSpy).toHaveBeenCalledWith(request);
+    expect(addDeckSpy.params).toEqual({
+      ...request,
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+    });
   });
 
   it('Should return 500 if AddDeck fails', async () => {

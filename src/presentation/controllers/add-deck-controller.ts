@@ -5,12 +5,23 @@ import { noContent, serverError } from '@/presentation/helpers';
 export class AddDeckController implements Controller {
   constructor(private readonly addDeck: AddDeck) {}
 
-  async handle(request: any): Promise<HttpResponse> {
+  async handle(request: AddDeckController.Params): Promise<HttpResponse> {
     try {
-      this.addDeck.add(request);
+      await this.addDeck.add({
+        ...request,
+        createdAt: new Date(),
+        modifiedAt: new Date(),
+      });
       return noContent();
     } catch (err) {
       return serverError(err);
     }
   }
+}
+
+export namespace AddDeckController {
+  export type Params = {
+    name: string;
+    isPublic: boolean;
+  };
 }
