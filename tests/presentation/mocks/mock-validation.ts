@@ -1,0 +1,13 @@
+import { Validation } from '@/presentation/protocols';
+
+export class ValidationSpy implements Validation {
+  error: Error | null = null;
+  input: any;
+
+  validate(input: any): Error | void {
+    this.input = input;
+    if (this.error) {
+      return this.error;
+    }
+  }
+}

@@ -30,5 +30,14 @@ describe('Survey Routes', () => {
         })
         .expect(204);
     });
+
+    it('Should return 400 if any param is missing', async () => {
+      await request(app)
+        .post('/api/decks/add')
+        .send({
+          name: 'any_name',
+        })
+        .expect(400);
+    });
   });
 });

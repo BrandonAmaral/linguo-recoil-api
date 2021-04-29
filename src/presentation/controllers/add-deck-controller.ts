@@ -1,12 +1,19 @@
 import { AddDeck } from '@/domain/usecases';
-import { Controller, HttpResponse } from '@/presentation/protocols';
-import { noContent, serverError } from '@/presentation/helpers';
+import { Controller, HttpResponse, Validation } from '@/presentation/protocols';
+import { noContent, serverError, badRequest } from '@/presentation/helpers';
 
 export class AddDeckController implements Controller {
-  constructor(private readonly addDeck: AddDeck) {}
+  constructor(
+    private readonly addDeck: AddDeck,
+    private readonly validation: Validation,
+  ) {}
 
   async handle(request: AddDeckController.Params): Promise<HttpResponse> {
     try {
+      const error = this.validation.validate(request);
+      if (error) {
+        return badRequest(error);
+      }
       await this.addDeck.add({
         ...request,
         createdAt: new Date(),

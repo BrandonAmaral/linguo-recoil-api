@@ -1,6 +1,7 @@
 import { AddDeckController } from '@/presentation/controllers';
-import { AddDeckSpy } from '@/tests/presentation/mocks';
-import { noContent, serverError } from '@/presentation/helpers';
+import { AddDeckSpy, ValidationSpy } from '@/tests/presentation/mocks';
+import { noContent, serverError, badRequest } from '@/presentation/helpers';
+import { MissingParamError } from '@/presentation/errors';
 
 import faker from 'faker';
 import MockDate from 'mockdate';
@@ -13,14 +14,17 @@ const mockRequest = (): AddDeckController.Params => ({
 type SutTypes = {
   sut: AddDeckController;
   addDeckSpy: AddDeckSpy;
+  validationSpy: ValidationSpy;
 };
 
 const makeSut = (): SutTypes => {
   const addDeckSpy = new AddDeckSpy();
-  const sut = new AddDeckController(addDeckSpy);
+  const validationSpy = new ValidationSpy();
+  const sut = new AddDeckController(addDeckSpy, validationSpy);
   return {
     sut,
     addDeckSpy,
+    validationSpy,
   };
 };
 
@@ -59,5 +63,20 @@ describe('AddDeck Controller', () => {
     const request = mockRequest();
     const response = await sut.handle(request);
     expect(response).toEqual(serverError(new Error()));
+  });
+
+  it('Should call Validation with correct value', async () => {
+    const { sut, validationSpy } = makeSut();
+    const request = mockRequest();
+    await sut.handle(request);
+    expect(validationSpy.input).toEqual(request);
+  });
+
+  it('Should return 400 if Validation returns an error', async () => {
+    const { sut, validationSpy } = makeSut();
+    validationSpy.error = new MissingParamError(faker.random.word());
+    const request = mockRequest();
+    const response = await sut.handle(request);
+    expect(response).toEqual(badRequest(validationSpy.error));
   });
 });
