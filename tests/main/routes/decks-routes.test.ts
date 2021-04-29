@@ -1,0 +1,34 @@
+import app from '@/main/config/app';
+import { MongoHelper } from '@/infra/db';
+
+import request from 'supertest';
+import { Collection } from 'mongodb';
+
+let deckCollection: Collection;
+
+describe('Survey Routes', () => {
+  beforeAll(async () => {
+    await MongoHelper.connect(process.env.MONGO_URL!);
+  });
+
+  beforeEach(async () => {
+    deckCollection = await MongoHelper.getCollection('decks');
+    await deckCollection.deleteMany({});
+  });
+
+  afterAll(async () => {
+    await MongoHelper.disconnect();
+  });
+
+  describe('POST /decks', () => {
+    it('Should return 204 on success', async () => {
+      await request(app)
+        .post('/api/decks/add')
+        .send({
+          name: 'any_name',
+          isPublic: true,
+        })
+        .expect(204);
+    });
+  });
+});
