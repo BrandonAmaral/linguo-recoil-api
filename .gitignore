@@ -1,4 +1,9 @@
 node_modules
 globalConfig.json
 coverage
+dist
+data
+!src/data
+!tests/data
+.vscode
 .env

@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mongo:
+    container_name: mongo_container
+    image: mongo:4.4
+    restart: always
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27017:27017'
+  api:
+    container_name: api-container
+    image: node:15
+    working_dir: /usr/src/app
+    restart: always
+    command: bash -c "yarn install --prod && yarn debug"
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/app
+    volumes:
+      - ./dist/:/usr/src/app/dist/
+      - ./package.json:/usr/src/app/package.json
+    ports:
+      - '5000:5000'
+      - '5500:5500'
+    links:
+      - mongo
