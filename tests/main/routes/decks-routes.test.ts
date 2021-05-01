@@ -25,7 +25,7 @@ describe('Survey Routes', () => {
       await request(app)
         .post('/api/decks/add')
         .send({
-          name: 'any_name',
+          deckName: 'any_name',
           isPublic: true,
         })
         .expect(204);
@@ -35,7 +35,7 @@ describe('Survey Routes', () => {
       await request(app)
         .post('/api/decks/add')
         .send({
-          name: 'any_name',
+          deckName: 'any_name',
         })
         .expect(400);
     });

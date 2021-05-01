@@ -28,7 +28,7 @@ export class AddDeckController implements Controller {
 
 export namespace AddDeckController {
   export type Params = {
-    name: string;
+    deckName: string;
     isPublic: boolean;
   };
 }

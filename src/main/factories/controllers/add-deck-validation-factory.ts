@@ -6,7 +6,7 @@ import {
 
 export const makeAddDeckValidation = (): ValidationComposite => {
   const validations: Validation[] = [];
-  for (const field of ['name', 'isPublic']) {
+  for (const field of ['deckName', 'isPublic']) {
     validations.push(new RequiredFieldValidation(field));
   }
   return new ValidationComposite(validations);

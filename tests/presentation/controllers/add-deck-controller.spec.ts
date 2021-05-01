@@ -7,7 +7,7 @@ import faker from 'faker';
 import MockDate from 'mockdate';
 
 const mockRequest = (): AddDeckController.Params => ({
-  name: faker.random.words(),
+  deckName: faker.random.words(),
   isPublic: true,
 });
 
