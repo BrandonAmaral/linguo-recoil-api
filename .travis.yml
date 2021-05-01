@@ -1,6 +1,6 @@
 language: node_js
 node_js:
   - 15
+coveralls: true
 script:
-  - eslint 'src/**'
   - yarn test:coveralls
