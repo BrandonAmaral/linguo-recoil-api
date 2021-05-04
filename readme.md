@@ -3,13 +3,16 @@
 
 # Linguo Recoil
 
-### Table of Contents
+> ### Table of Contents
 
-- [Tools and Modules](#tools-and-modules)
+1. [APIs](#apis)
+2. [Tools and Modules](#tools-and-modules)
 
----
+> ## APIs
 
-## Tools and Modules
+1. [Create Deck](./requirements/add-deck.md)
+
+> ## Tools and Modules
 
 - Typescript
 - Express
